@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from typing import Any
 
 from .gsc import date_range_for, get_service, paginate_search_analytics
 from .models import CannibalizationGroup
@@ -22,7 +23,7 @@ def find_cannibalization(
         dimensions=["query", "page"],
     )
 
-    query_map: dict[str, list[dict[str, object]]] = defaultdict(list)
+    query_map: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for row in rows:
         keys: list[str] = row.get("keys", [])
         query = keys[0] if len(keys) > 0 else ""

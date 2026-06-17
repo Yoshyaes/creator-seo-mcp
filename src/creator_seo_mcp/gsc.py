@@ -20,11 +20,11 @@ def _get_credentials() -> Credentials:
     creds: Credentials | None = None
 
     if os.path.exists(token):
-        creds = Credentials.from_authorized_user_file(token, SCOPES)
+        creds = Credentials.from_authorized_user_file(token, SCOPES)  # type: ignore[no-untyped-call]
 
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
+            creds.refresh(Request())  # type: ignore[no-untyped-call]
         else:
             flow = InstalledAppFlow.from_client_secrets_file(credentials_path(), SCOPES)
             creds = flow.run_local_server(port=0)
@@ -78,7 +78,8 @@ def query_search_analytics(
     except HttpError as e:
         raise RuntimeError(f"GSC API error: {e}") from e
 
-    return response.get("rows", [])
+    rows: list[dict[str, Any]] = response.get("rows", [])
+    return rows
 
 
 def paginate_search_analytics(
