@@ -1,0 +1,17 @@
+[
+  {
+    "keys": ["https://example.com/elden-ring-guide/"],
+    "clicks": 800,
+    "impressions": 12000
+  },
+  {
+    "keys": ["https://example.com/bg3-tips/"],
+    "clicks": 450,
+    "impressions": 7000
+  },
+  {
+    "keys": ["https://example.com/new-post/"],
+    "clicks": 50,
+    "impressions": 900
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "keys": ["elden ring best starting class", "https://example.com/elden-ring-starting-class/"],
+    "clicks": 120,
+    "impressions": 4200,
+    "ctr": 0.0286,
+    "position": 7.3
+  },
+  {
+    "keys": ["baldurs gate 3 best class", "https://example.com/bg3-best-class/"],
+    "clicks": 85,
+    "impressions": 3100,
+    "ctr": 0.0274,
+    "position": 9.1
+  },
+  {
+    "keys": ["gaming chair review", "https://example.com/gaming-chair-review/"],
+    "clicks": 12,
+    "impressions": 8000,
+    "ctr": 0.0015,
+    "position": 5.4
+  },
+  {
+    "keys": ["low impression query", "https://example.com/some-page/"],
+    "clicks": 2,
+    "impressions": 10,
+    "ctr": 0.02,
+    "position": 8.0
+  }
+]

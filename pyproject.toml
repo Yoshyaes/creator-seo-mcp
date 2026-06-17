@@ -1,0 +1,68 @@
+[project]
+name = "creator-seo-mcp"
+version = "0.1.0"
+description = "Revenue-weighted SEO MCP server for content creators. Connects Google Search Console to page content and ranks opportunities by money, not clicks."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Fred Twum-Acheampong" }]
+requires-python = ">=3.11"
+keywords = ["mcp", "seo", "google-search-console", "content-creators", "fastmcp"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+  "fastmcp>=2.0",
+  "google-api-python-client>=2.100",
+  "google-auth-httplib2>=0.2",
+  "google-auth-oauthlib>=1.2",
+  "httpx>=0.27",
+  "selectolax>=0.3",
+  "pydantic>=2.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/yoshyaes/creator-seo-mcp"
+Repository = "https://github.com/yoshyaes/creator-seo-mcp"
+Issues = "https://github.com/yoshyaes/creator-seo-mcp/issues"
+
+[project.scripts]
+creator-seo-mcp = "creator_seo_mcp.server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "src/creator_seo_mcp/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/creator_seo_mcp"]
+
+[dependency-groups]
+dev = [
+  "pytest>=8.0",
+  "pytest-asyncio>=0.23",
+  "ruff>=0.4",
+  "mypy>=1.10",
+  "types-requests",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+ignore_missing_imports = true
