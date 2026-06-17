@@ -1,5 +1,7 @@
 # creator-seo-mcp
 
+[![CI](https://github.com/Yoshyaes/creator-seo-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/Yoshyaes/creator-seo-mcp/actions/workflows/ci.yml)
+
 An MCP server for content creators that connects Google Search Console to your page content and ranks every SEO opportunity by estimated revenue, not vanity clicks.
 
 Generic SEO tools surface raw GSC numbers. This one tells you which fix pays most, based on your actual display-ad RPM and affiliate commission rates.
