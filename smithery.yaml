@@ -1,0 +1,31 @@
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      googleCredentialsPath:
+        type: string
+        title: Google Credentials Path
+        description: Absolute path to your OAuth 2.0 credentials.json file downloaded from Google Cloud Console.
+      siteRpm:
+        type: number
+        title: Site RPM (USD)
+        description: Your display ad RPM in USD (e.g. 22 for Mediavine). Used to weight opportunities by estimated revenue.
+        default: 15
+      affiliateCategories:
+        type: string
+        title: Affiliate Categories (JSON)
+        description: 'JSON map of URL path prefix to affiliate multiplier. Example: {"gaming-deals": 2.0}'
+        default: "{}"
+    required:
+      - googleCredentialsPath
+  commandFunction: |-
+    (config) => ({
+      command: "uvx",
+      args: ["creator-seo-mcp"],
+      env: {
+        GOOGLE_CREDENTIALS_PATH: config.googleCredentialsPath,
+        CREATOR_SEO_SITE_RPM: String(config.siteRpm ?? 15),
+        CREATOR_SEO_AFFILIATE_CATEGORIES: config.affiliateCategories ?? "{}",
+      },
+    })
