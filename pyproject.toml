@@ -1,6 +1,6 @@
 [project]
 name = "creator-seo-mcp"
-version = "0.1.0"
+version = "0.1.1"
 description = "Revenue-weighted SEO MCP server for content creators. Connects Google Search Console to page content and ranks opportunities by money, not clicks."
 readme = "README.md"
 license = { text = "MIT" }
