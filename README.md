@@ -95,3 +95,5 @@ Issues and PRs welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 ## License
 
 MIT
+
+<!-- mcp-name: io.github.yoshyaes/creator-seo-mcp -->

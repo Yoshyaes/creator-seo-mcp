@@ -1,0 +1,44 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.yoshyaes/creator-seo-mcp",
+  "title": "Creator SEO MCP",
+  "description": "Revenue-weighted SEO MCP server for content creators. Connects Google Search Console to page content and ranks opportunities by estimated revenue, not vanity clicks.",
+  "repository": {
+    "url": "https://github.com/Yoshyaes/creator-seo-mcp",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "pypi",
+      "identifier": "creator-seo-mcp",
+      "version": "0.1.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "GOOGLE_CREDENTIALS_PATH",
+          "description": "Absolute path to your OAuth 2.0 credentials.json downloaded from Google Cloud Console.",
+          "isRequired": true,
+          "isSecret": false,
+          "format": "string"
+        },
+        {
+          "name": "CREATOR_SEO_SITE_RPM",
+          "description": "Your display ad RPM in USD (e.g. 22 for Mediavine). Used to weight opportunities by estimated revenue.",
+          "isRequired": false,
+          "isSecret": false,
+          "format": "string"
+        },
+        {
+          "name": "CREATOR_SEO_AFFILIATE_CATEGORIES",
+          "description": "JSON map of URL path prefix to affiliate revenue multiplier. Example: {\"gaming-deals\": 2.0}",
+          "isRequired": false,
+          "isSecret": false,
+          "format": "string"
+        }
+      ]
+    }
+  ]
+}
