@@ -96,4 +96,4 @@ Issues and PRs welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 MIT
 
-<!-- mcp-name: io.github.yoshyaes/creator-seo-mcp -->
+<!-- mcp-name: io.github.Yoshyaes/creator-seo-mcp -->

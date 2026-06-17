@@ -1,8 +1,8 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.yoshyaes/creator-seo-mcp",
+  "name": "io.github.Yoshyaes/creator-seo-mcp",
   "title": "Creator SEO MCP",
-  "description": "Revenue-weighted SEO MCP server for content creators. Connects Google Search Console to page content and ranks opportunities by estimated revenue, not vanity clicks.",
+  "description": "SEO MCP server for creators. Ranks Google Search Console opportunities by ad revenue, not clicks.",
   "repository": {
     "url": "https://github.com/Yoshyaes/creator-seo-mcp",
     "source": "github"
