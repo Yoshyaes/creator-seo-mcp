@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 import os
+import sys
 from datetime import date, timedelta
 from typing import Any
 
+from google.auth.exceptions import RefreshError
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -15,6 +17,13 @@ from .config import credentials_path, token_path
 SCOPES = ["https://www.googleapis.com/auth/webmasters.readonly"]
 
 
+def _is_headless() -> bool:
+    """Return True when running in a non-interactive / scheduled context."""
+    if os.environ.get("CREATOR_SEO_HEADLESS") == "1":
+        return True
+    return not sys.stdout.isatty()
+
+
 def _get_credentials() -> Credentials:
     token = token_path()
     creds: Credentials | None = None
@@ -24,8 +33,18 @@ def _get_credentials() -> Credentials:
 
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())  # type: ignore[no-untyped-call]
-        else:
+            try:
+                creds.refresh(Request())  # type: ignore[no-untyped-call]
+            except RefreshError:
+                # Refresh token revoked/expired (invalid_grant): re-run consent flow
+                creds = None
+        if not creds or not creds.valid:
+            if _is_headless():
+                raise RuntimeError(
+                    "GSC token expired or revoked. Re-authenticate by running:\n"
+                    "  uvx creator-seo-mcp\n"
+                    "in an interactive terminal, then retry."
+                )
             flow = InstalledAppFlow.from_client_secrets_file(credentials_path(), SCOPES)
             creds = flow.run_local_server(port=0)
 

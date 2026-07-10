@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import os
 from typing import Annotated
 
 from fastmcp import FastMCP
@@ -8,9 +9,9 @@ from pydantic import Field
 
 from . import __version__
 from .cannibalization import find_cannibalization as _find_cannibalization
-from .config import load_revenue_config
+from .config import load_revenue_config, token_path
 from .decay import analyze_content_decay as _analyze_content_decay
-from .gsc import list_verified_sites as _list_verified_sites
+from .gsc import SCOPES, list_verified_sites as _list_verified_sites
 from .models import (
     CannibalizationGroup,
     DecayResult,
@@ -37,11 +38,28 @@ mcp = FastMCP(
 @mcp.tool()
 def health_check() -> HealthCheck:
     """Check that the server is running and list your verified GSC properties."""
+    from google.oauth2.credentials import Credentials
+
     try:
         sites = _list_verified_sites()
     except Exception:
         sites = []
-    return HealthCheck(status="ok", version=__version__, verified_sites=sites)
+
+    token = token_path()
+    token_status = "missing"
+    if os.path.exists(token):
+        try:
+            creds = Credentials.from_authorized_user_file(token, SCOPES)  # type: ignore[no-untyped-call]
+            if creds.valid:
+                token_status = "valid"
+            elif creds.expired:
+                token_status = "expired"
+            else:
+                token_status = "invalid"
+        except Exception:
+            token_status = "unreadable"
+
+    return HealthCheck(status="ok", version=__version__, verified_sites=sites, token_status=token_status)
 
 
 @mcp.tool()

@@ -9,6 +9,7 @@ class HealthCheck(BaseModel):
     status: str
     version: str
     verified_sites: list[str] = Field(default_factory=list)
+    token_status: str = "unknown"
 
 
 class QueryRow(BaseModel):
