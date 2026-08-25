@@ -50,10 +50,25 @@ def test_decay_empty_recent(mock_get_service):
 
 
 @patch("creator_seo_mcp.decay.get_service")
-def test_decay_excludes_low_click_pages(mock_get_service):
+def test_decay_excludes_pure_noise(mock_get_service):
+    """Pages that never had meaningful traffic in either period are noise, not decay."""
     recent = [{"keys": ["https://example.com/low/"], "clicks": 3, "impressions": 100}]
-    prior = [{"keys": ["https://example.com/low/"], "clicks": 200, "impressions": 5000}]
+    prior = [{"keys": ["https://example.com/low/"], "clicks": 5, "impressions": 150}]
     mock_get_service.return_value = _mock_service_sequential(recent, prior)
 
     results = analyze_content_decay("https://example.com/", min_clicks=10)
     assert results == []
+
+
+@patch("creator_seo_mcp.decay.get_service")
+def test_decay_flags_pages_that_collapsed_to_near_zero(mock_get_service):
+    """A page that fell from 200 clicks to 3 is the worst kind of decay and must be flagged,
+    even though its recent click count alone is below min_clicks."""
+    recent = [{"keys": ["https://example.com/collapsed/"], "clicks": 3, "impressions": 100}]
+    prior = [{"keys": ["https://example.com/collapsed/"], "clicks": 200, "impressions": 5000}]
+    mock_get_service.return_value = _mock_service_sequential(recent, prior)
+
+    results = analyze_content_decay("https://example.com/", min_clicks=10)
+    assert len(results) == 1
+    assert results[0].page == "https://example.com/collapsed/"
+    assert results[0].pct_change < -95

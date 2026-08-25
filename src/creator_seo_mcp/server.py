@@ -11,7 +11,8 @@ from . import __version__
 from .cannibalization import find_cannibalization as _find_cannibalization
 from .config import load_revenue_config, token_path
 from .decay import analyze_content_decay as _analyze_content_decay
-from .gsc import SCOPES, list_verified_sites as _list_verified_sites
+from .gsc import SCOPES
+from .gsc import list_verified_sites as _list_verified_sites
 from .models import (
     CannibalizationGroup,
     DecayResult,
@@ -19,7 +20,6 @@ from .models import (
     OnPageAudit,
     Opportunity,
     PagePerformance,
-    RevenueConfig,
     StrikingKeyword,
 )
 from .onpage import audit_page_onpage as _audit_page_onpage
@@ -200,9 +200,7 @@ def get_top_opportunities(
     weights each by estimated revenue, and returns a single ranked action list.
     Revenue estimates use your configured RPM and affiliate multipliers.
     """
-    revenue_config = load_revenue_config(
-        RevenueConfig(site_rpm=site_rpm) if site_rpm is not None else None
-    )
+    revenue_config = load_revenue_config(site_rpm)
 
     striking, decay, cannibalization = asyncio.run(
         _gather_all(site_url, days)
@@ -226,7 +224,7 @@ async def _gather_all(
     loop = asyncio.get_event_loop()
     striking, decay, cannibalization = await asyncio.gather(
         loop.run_in_executor(None, _get_striking_distance_keywords, site_url, days),
-        loop.run_in_executor(None, _analyze_content_decay, site_url, days),
+        loop.run_in_executor(None, _analyze_content_decay, site_url, days, days),
         loop.run_in_executor(None, _find_cannibalization, site_url, days),
     )
     return striking, decay, cannibalization

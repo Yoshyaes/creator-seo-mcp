@@ -54,7 +54,7 @@ def analyze_content_decay(
         if page not in prior_map:
             continue
         prior = prior_map[page]
-        if recent["clicks"] < min_clicks:
+        if max(recent["clicks"], prior["clicks"]) < min_clicks:
             continue
         if prior["clicks"] == 0:
             continue
