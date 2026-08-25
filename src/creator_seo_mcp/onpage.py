@@ -50,10 +50,11 @@ def audit_page_onpage(page_url: str, target_query: str) -> OnPageAudit:
     if meta_node:
         meta_desc = meta_node.attributes.get("content", "") or ""
 
+    _strip_boilerplate(parser)
+
     h1 = _extract_text(parser, "h1")
     headings = [n.text(strip=True) for n in parser.css("h2, h3, h4") if n.text(strip=True)]
 
-    _strip_boilerplate(parser)
     body_node = parser.css_first("article") or parser.css_first("main") or parser.body
     body_text = body_node.text(separator=" ", strip=True) if body_node else ""
     body_text = re.sub(r"\s+", " ", body_text).strip()

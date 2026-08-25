@@ -6,11 +6,11 @@ import os
 from .models import RevenueConfig
 
 
-def load_revenue_config(override: RevenueConfig | None = None) -> RevenueConfig:
-    if override is not None:
-        return override
-
-    site_rpm = float(os.environ.get("CREATOR_SEO_SITE_RPM", "15.0"))
+def load_revenue_config(site_rpm_override: float | None = None) -> RevenueConfig:
+    if site_rpm_override is not None:
+        site_rpm = site_rpm_override
+    else:
+        site_rpm = float(os.environ.get("CREATOR_SEO_SITE_RPM", "15.0"))
 
     affiliate_raw = os.environ.get("CREATOR_SEO_AFFILIATE_CATEGORIES", "{}")
     affiliate_categories: dict[str, float] = json.loads(affiliate_raw)

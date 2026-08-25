@@ -17,9 +17,12 @@ def _ctr_at(position: float, curve: dict[int, float]) -> float:
     return curve.get(pos_int, 0.01)
 
 
+_PAGE1_TARGET_POSITION = 3.0
+"""Matches the page-1 reference used for StrikingKeyword.gap_to_page1 in striking.py."""
+
+
 def score_striking(keyword: StrikingKeyword, config: RevenueConfig) -> Opportunity:
-    target_position = max(1, math.floor(keyword.position) - 3)
-    ctr_gain = _ctr_at(target_position, config.ctr_curve) - _ctr_at(keyword.position, config.ctr_curve)
+    ctr_gain = _ctr_at(_PAGE1_TARGET_POSITION, config.ctr_curve) - _ctr_at(keyword.position, config.ctr_curve)
     ctr_gain = max(0.0, ctr_gain)
     est_traffic_gain = keyword.impressions * ctr_gain
     page_value_per_click = (config.site_rpm / 1000.0) * _affiliate_multiplier(keyword.page, config)

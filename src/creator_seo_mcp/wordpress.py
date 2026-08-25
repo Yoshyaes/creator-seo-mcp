@@ -61,7 +61,8 @@ def get_post_content(site_url: str, post_id_or_slug: str) -> WordPressPost:
 def push_wordpress_draft(site_url: str, post_id: int, content: str, title: str | None = None) -> WordPressPost:
     """
     Push an updated draft back to WordPress. Requires WORDPRESS_DRAFT_PUSH_ENABLED=true.
-    Never auto-publishes. Sets status to 'draft' always.
+    Refuses to touch a post that is already published: setting status to 'draft' on a
+    live post unpublishes it, which this function must never do silently.
     """
     if os.environ.get("WORDPRESS_DRAFT_PUSH_ENABLED", "false").lower() != "true":
         raise PermissionError(
@@ -71,6 +72,15 @@ def push_wordpress_draft(site_url: str, post_id: int, content: str, title: str |
 
     site_url = site_url.rstrip("/")
     auth = _wp_auth()
+
+    current_resp = httpx.get(f"{site_url}/wp-json/wp/v2/posts/{post_id}", auth=auth, timeout=10.0)
+    current_resp.raise_for_status()
+    current_status = current_resp.json().get("status")
+    if current_status == "publish":
+        raise PermissionError(
+            f"Post {post_id} is already published. Refusing to overwrite it with a draft, "
+            "since that would unpublish the live page. Create a new draft post instead."
+        )
 
     body: dict[str, str] = {"content": content, "status": "draft"}
     if title:

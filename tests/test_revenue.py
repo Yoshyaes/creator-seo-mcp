@@ -96,3 +96,20 @@ def test_score_striking_position1_no_ctr_gain(config):
     )
     result = score_striking(kw, config)
     assert result.est_traffic_gain >= 0
+
+
+def test_score_striking_larger_gap_scores_higher(config):
+    """A keyword with a bigger real gap_to_page1 must score at least as high as one
+    closer to page 1, at equal impressions. Scoring should track the tool's own
+    striking-distance definition, not shrink as the true opportunity grows."""
+    near_page1 = StrikingKeyword(
+        query="near", page="https://example.com/near/",
+        impressions=1000, clicks=20, ctr=0.02, position=4.0, gap_to_page1=1.0,
+    )
+    deep_striking = StrikingKeyword(
+        query="deep", page="https://example.com/deep/",
+        impressions=1000, clicks=20, ctr=0.02, position=15.0, gap_to_page1=12.0,
+    )
+    result_near = score_striking(near_page1, config)
+    result_deep = score_striking(deep_striking, config)
+    assert result_deep.est_value >= result_near.est_value
