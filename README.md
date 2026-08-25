@@ -102,7 +102,15 @@ This is the actual "before" baseline, not a mockup. Dollar estimates use the def
 
 `analyze_content_decay` also flagged 40 pages losing clicks month-over-month on this run, the worst being a 100% drop (10 clicks to 0) on a Palworld lawsuit post and a 61% drop on a Palworld tower-boss guide, both worth a content refresh before the traffic they had is gone for good.
 
-**What's next:** the letterboxd/backloggd fixes above (consolidate the competing pages, get the target query into the title and H1 of the surviving one) haven't been made yet. Real ranking movement takes Google days to weeks to reflect, not one tool call, so this section will be updated with the actual position and traffic change once those edits are live and enough time has passed to measure it honestly.
+**Update (2026-08-25):** the title/H1 edits for the two striking-distance opportunities above are live. Re-running `audit_page_onpage` against the real pages confirms it:
+
+| Page | Target query | In title? | In H1? | Remaining suggestions |
+|---|---|---|---|---|
+| [best-letterboxd-alternatives...](https://www.twoaveragegamers.com/best-letterboxd-alternatives-for-gamers-who-track-everything-2026/) | "letterboxd for games" | ✅ | ✅ | none |
+| [backloggd-review](https://www.twoaveragegamers.com/backloggd-review/) | "backloggd" | ✅ | ✅ | none |
+| [backloggd-vs-gg-vs-savepoint](https://www.twoaveragegamers.com/backloggd-vs-gg-vs-savepoint/) | "backloggd" | ✅ | ✅ | none |
+
+No position or traffic movement to report yet, and that's expected, not a null result: Search Console's data has a 2-3 day freshness lag, so a same-day re-pull still covers the identical `2026-07-26` to `2026-08-22` window as the original baseline above, before any of these edits existed. Google also needs to re-crawl and re-rank the pages, which typically takes longer than the raw data lag. This section will be updated again once a GSC pull actually covers the post-edit period (realistically 2-3 weeks out) with the real position and click change, not before.
 
 ## Contributing
 
